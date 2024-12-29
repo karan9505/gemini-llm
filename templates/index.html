@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini LLM Application</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .chat-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .chat {
-            margin: 10px 0;
-        }
-        .user {
-            color: blue;
-        }
-        .bot {
-            color: green;
-        }
-    </style>
-</head>
-<body>
-    <h1>Gemini LLM Application</h1>
-    <form method="POST" style="margin-top: 20px; text-align: center;">
-        <input type="text" name="input_text" placeholder="Ask a question" style="width: 70%; padding: 10px;" required>
-        <button type="submit" style="padding: 10px 20px;">Submit</button>
-    </form>
-    <form action="/clear" method="POST" style="text-align: center; margin-top: 10px;">
-        <button type="submit" style="margin: 10px 20px;">Clear Chat</button>
-    </form>
-    <div class="chat-box">
-        <h2>Chat History</h2>
-        {% for role, text in chat_history %}
-            <div class="chat {{ 'user' if role == 'You' else 'bot' }}">
-                <strong>{{ role }}:</strong> {{ text }}
-            </div>
-        {% endfor %}
+    <link rel="stylesheet" href="../static/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+     
+          <img src="../static/geminiLogo.png" class="gemini-logo"/>
+          <!-- <h1>Gemini LLM Application</h1> -->
+      </header>
+
+      {% if not chat_history %}
+      <div class="empty">
+        <p>Welcome to gemini powered chat</p>
+      </div>
+      {% endif %}
+
+      {% if chat_history %}
+      <div class="chat-box">
+        <!-- <h2>Chat History</h2> -->
+        <div class="chat-history">
+          {% for role, text in chat_history %}
+          <div class="chat {{ 'user' if role == 'You' else 'bot' }}">
+       {{ text }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- Form to clear chat -->
+      <form action="/clear" method="POST" class="clear-form">
+        <button type="submit">Clear</button>
+      </form>
+      {% endif %}
+      <form method="POST" class="input-form">
+        <input
+          type="text"
+          name="input_text"
+          placeholder="Ask a question"
+          required
+        />
+        <button type="submit">
+            <img src="../static/send.png" class="send-logo"/>
+        </button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
